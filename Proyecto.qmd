@@ -1,0 +1,71 @@
+---
+title: "Visualización del dataset 'hockey' con Seaborn"
+author: "Carolina Delgado"
+format: 
+  html:
+    code-fold: true
+    theme: cosmo
+---
+## Introducción
+
+Este documento realiza un análisis de datos de equipos de hockey utilizando Python, Pandas y Seaborn.
+
+## Visualización de datos en Seaborn
+
+```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
+import sqlite3
+import pandas as pd
+
+# Cargar el dataset hockey
+def obtener_conexion_bd():
+    return sqlite3.connect('data/hockey_teams.db')
+
+# Función para obtener la conexión a la base de datos
+def obtener_conexion_bd():
+    return sqlite3.connect('hockey_teams.db')
+
+# Cargar los datos de la tabla 'teams' en un DataFrame de pandas
+conn = obtener_conexion_bd()
+df = pd.read_sql_query("SELECT * FROM teams", conn)
+conn.close()
+
+# Mostrar los primeros registros del DataFrame
+df.head()
+
+```
+
+```{python}
+# Mostrar los nombres de las columnas del DataFrame
+print(df.columns)
+
+```
+```{python}
+plt.figure(figsize=(10, 6))
+sns.boxplot(x="Victorias", y="Derrotas", data=df)
+plt.title("Distribución de victorias por equipo")
+plt.xticks(rotation=45)
+plt.show()
+```
+```{python}
+
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x="Derrotas", y="Victorias", hue="Nombre", data=df)
+plt.title("Relación entre victorias y derrotas, por equipo")
+plt.show()
+```
+
+```{python}
+plt.figure(figsize=(10, 6))
+sns.histplot(data=df, x="Victorias", kde=True)
+plt.title("Distribución de las victorias")
+plt.show()
+
+```
+## Conclusión
+En este documento, se han realizado diversas visualizaciones para entender mejor el desempeño de los equipos de hockey. La conexión a la base de datos SQLite nos permitió trabajar directamente con los datos almacenados, y con Seaborn, generamos gráficos que ofrecen una visión clara de las victorias y derrotas de los equipos.
+## Refleccion Final
+Los principales desafios que tuve con la ejecucion del proyecto fue establecer las rutas y conectarme con la base de datos hockey, constantemente me decia que no coincidian la rutas o que  el archivo no estaba definido tuve que hacer uso de herramientas de IA para consultar el error. Y tambien tuve problemas con la sintaxis del codigo. Fue un gran reto realizar el proyecto.
+
+## Enlace al Repo: https://github.com/karodelgado/Proyecto-Final.git
